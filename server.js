@@ -1,21 +1,18 @@
 const express = require('express');
 const path = require('path');
-const fetchData = require('./script');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', async (req, res) => {
-    try {
-        const products = await fetchData();
-        res.sendFile(path.join(__dirname, 'views', 'index.html'));
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
-    }
+// Serve the 'views/index.html' file when the root URL is accessed
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
